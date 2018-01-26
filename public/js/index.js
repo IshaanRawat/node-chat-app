@@ -2,6 +2,7 @@ var socket = io();
 
 const messageForm = document.querySelector("#message-form");
 const messageContainer = document.querySelector("#messages");
+const locationButton = document.querySelector("#send-location");
         
 socket.on("connect", () => {
     console.log("Connected to the server.");
@@ -19,6 +20,17 @@ socket.on("newMessage", (message) => {
     messageContainer.appendChild(li);
 });
 
+socket.on("newLocationMessage", (message) => {
+    let li = document.createElement("li");
+    let a = document.createElement("a");
+    a.setAttribute("href", message.url);
+    a.setAttribute("target", "_blank");
+    a.textContent = "My current location";
+    li.textContent = `${message.from}: `;
+    li.appendChild(a);
+    messageContainer.appendChild(li);
+})
+
 messageForm.addEventListener("submit", (event) => {
     event.preventDefault();
     socket.emit("createMessage", {
@@ -26,5 +38,20 @@ messageForm.addEventListener("submit", (event) => {
         text: document.querySelector("input[name=message]").value
     }, (response) => {
 
+    });
+});
+
+locationButton.addEventListener("click", (event) => {
+    if(!navigator.geolocation) {
+        return alert("Geolocation is not supported in your browser.");
+    }
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        socket.emit("createLocationMessage", {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        });
+    }, () => {
+        alert("Unable to fetch the location.");
     });
 });
