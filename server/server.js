@@ -26,6 +26,18 @@ io.on("connection", (socket) => {
             createdAt: new Date().getTime()
         });
     });
+
+    socket.emit("newMessage", {
+        from: "Admin",
+        text: "Welcome to the chat app",
+        createdAt: new Date().getTime()
+    });
+
+    socket.broadcast.emit("newMessage", {
+        from: "Admin",
+        text: "A new user has joined the chat app",
+        createdAt: new Date().getTime()
+    });
 });
 
 server.listen(port, () => {
