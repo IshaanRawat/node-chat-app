@@ -4,6 +4,20 @@ const messageForm = document.querySelector("#message-form");
 const messageInputField = document.querySelector("input[name=message]");
 const messageContainer = document.querySelector("#messages");
 const locationButton = document.querySelector("#send-location");
+
+// function scrollToBottom() {
+//     let newMessage = document.querySelector("#messages li:last-child");
+//     let lastMessage = document.querySelector("#messages li:nth-last-child(2)");
+//     let clientHeight = messageContainer.clientHeight;
+//     let scrollTop = messageContainer.scrollTop;
+//     let scrollHeight = messageContainer.scrollHeight;
+//     let newMessageHeight = newMessage.clientHeight;
+//     let lastMessageHeight = lastMessage.clientHeight;
+
+//     if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+//         console.log("Should scroll!");
+//     }
+// }
         
 socket.on("connect", () => {
     console.log("Connected to the server.");
@@ -14,8 +28,6 @@ socket.on("disconnect", () => {
 });
 
 socket.on("newMessage", (message) => {
-    console.log("New Message received!", message);
-
     let li = document.createElement("li");
     li.textContent = `${message.from}: ${message.text}`;
     messageContainer.appendChild(li);
