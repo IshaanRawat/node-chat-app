@@ -65,10 +65,7 @@ socket.on("updateUsersList", (users) => {
 
 messageForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    socket.emit("createMessage", {
-        from: "User",
-        text: messageInputField.value
-    }, (response) => {
+    socket.emit("createMessage", messageInputField.value, (response) => {
         messageInputField.value = "";
     });
 });
