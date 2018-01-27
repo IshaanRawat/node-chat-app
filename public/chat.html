@@ -9,17 +9,13 @@
 <body>
     <h1>Chat App</h1>
 
-    <form action="/chat.html">
-        <fieldset>
-            <legend>Display name</legend>
-            <input type="text" name="name" autofocus>
-        </fieldset>
-        <fieldset>
-            <legend>Chat Room</legend>
-            <input type="text" name="room">
-        </fieldset>
-        <input type="submit" value="Join">
+    <ol id="messages"></ol>
+
+    <form id="message-form">
+        <input type="text" name="message" placeholder="Message" autocomplete="off" autofocus>
+        <input type="submit" value="Send">
     </form>
+    <button id="send-location">Send Location</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js"></script>
