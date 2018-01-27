@@ -4,6 +4,7 @@ const messageForm = document.querySelector("#message-form");
 const messageInputField = document.querySelector("input[name=message]");
 const messageContainer = document.querySelector("#messages");
 const locationButton = document.querySelector("#send-location");
+const peopleContainer = document.querySelector("#people");
 
 // function scrollToBottom() {
 //     let newMessage = document.querySelector("#messages li:last-child");
@@ -51,7 +52,16 @@ socket.on("newLocationMessage", (message) => {
     li.textContent = `${message.from}: `;
     li.appendChild(a);
     messageContainer.appendChild(li);
-})
+});
+
+socket.on("updateUsersList", (users) => {
+    peopleContainer.innerHTML = "";
+    for (const user of users) {
+        let li = document.createElement("li");
+        li.textContent = user;
+        peopleContainer.appendChild(li);
+    }
+});
 
 messageForm.addEventListener("submit", (event) => {
     event.preventDefault();
