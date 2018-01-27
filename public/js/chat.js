@@ -18,6 +18,15 @@ const locationButton = document.querySelector("#send-location");
 //         console.log("Should scroll!");
 //     }
 // }
+
+function deparam(params) {
+    var result = {};
+    params = params.split("?")[1];
+    for(query of params.split("&")) {
+        result[query.split("=")[0]] = query.split("=")[1].replace("+", " ");
+    }
+    return result;
+}
         
 socket.on("connect", () => {
     console.log("Connected to the server.");
