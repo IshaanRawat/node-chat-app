@@ -24,6 +24,9 @@ io.on("connection", (socket) => {
             callback("Name and Room name are required.");
         }
 
+        socket.join(params.room);
+        socket.emit("newMessage", generateMessage("Admin", "Welcome to the chat app"));
+        socket.broadcast.to(params.room).emit("newMessage", generateMessage("Admin", `${params.name} has joined!`));
         callback();
     });
 
@@ -40,10 +43,6 @@ io.on("connection", (socket) => {
     socket.on("createLocationMessage", (coordinates) => {
         io.emit("newLocationMessage", generateLocationMessage("Admin", coordinates.latitude, coordinates.longitude));
     });
-
-    socket.emit("newMessage", generateMessage("Admin", "Welcome to the chat app"));
-
-    socket.broadcast.emit("newMessage", generateMessage("Admin", "New user has joined the chat app"));
 });
 
 server.listen(port, () => {
