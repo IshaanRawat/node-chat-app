@@ -18,8 +18,6 @@ var users = new Users();
 app.use(express.static(publicPath));
 
 io.on("connection", (socket) => {
-    console.log("New user connected.");
-
     socket.on("join", (params, callback) => {
         params = deparam(params);
         if(!isString(params.name) || !isString(params.room)) {
