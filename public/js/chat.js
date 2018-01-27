@@ -18,18 +18,18 @@ const locationButton = document.querySelector("#send-location");
 //         console.log("Should scroll!");
 //     }
 // }
-
-function deparam(params) {
-    var result = {};
-    params = params.split("?")[1];
-    for(query of params.split("&")) {
-        result[query.split("=")[0]] = query.split("=")[1].replace("+", " ");
-    }
-    return result;
-}
-        
+ 
 socket.on("connect", () => {
+    var params = window.location.search.split("?")[1];
     console.log("Connected to the server.");
+    socket.emit("join", params, (err) => {
+        if(err) {
+            alert(err);
+            window.location.href = "/";
+        } else {
+
+        }
+    });
 });
 
 socket.on("disconnect", () => {

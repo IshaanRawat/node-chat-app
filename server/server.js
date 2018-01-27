@@ -4,6 +4,8 @@ const express = require("express");
 const socketIO = require("socket.io");
 
 const {generateMessage, generateLocationMessage} = require("./utils/message");
+const {isString} = require("./utils/validation");
+const {deparam} = require("./utils/deparam");
 
 const port = process.env.PORT || 4000;
 const publicPath = path.join(__dirname, "..", "public");
@@ -15,6 +17,15 @@ app.use(express.static(publicPath));
 
 io.on("connection", (socket) => {
     console.log("New user connected.");
+
+    socket.on("join", (params, callback) => {
+        params = deparam(params);
+        if(!isString(params.name) || !isString(params.room)) {
+            callback("Name and Room name are required.");
+        }
+
+        callback();
+    });
 
     socket.on("disconnect", () => {
         console.log("User was disconnected.");
